@@ -25,7 +25,12 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
+
+    public function __invoke()
+    {
+        return view('auth.login');
+    }
 
     /**
      * Create a new controller instance.
