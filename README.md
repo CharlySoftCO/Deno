@@ -1,66 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Outsourcing Management Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descripción
+Este software es un sistema integral de gestión de outsourcing diseñado para optimizar la administración de proyectos, usuarios, empresas y clientes. Permite realizar un seguimiento detallado de tareas, informes y otras funcionalidades esenciales para empresas que ofrecen servicios tercerizados.
 
-## About Laravel
+## Características
+- **Gestión de Usuarios**: Creación, edición y visualización de usuarios con información detallada.
+- **Gestión de Clientes**: Registro y seguimiento de clientes asociados a proyectos específicos.
+- **Gestión de Empresas**: Organización de empresas contratantes y asociadas.
+- **Gestión de Proyectos**: Monitoreo de proyectos asociados a clientes y empresas.
+- **Informes**: Generación de reportes detallados para un mejor análisis.
+- **Seguimiento**: Supervisión en tiempo real de actividades y resultados.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologías utilizadas
+- **Frontend**: React.js
+- **Backend**: Laravel (PHP)
+- **Base de Datos**: MySQL
+- **Estilos**: Bootstrap 5.3
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalación
+### Requisitos previos
+1. Tener instalado [Node.js](https://nodejs.org/) y [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/).
+2. Tener instalado [Composer](https://getcomposer.org/).
+3. Tener un servidor local configurado (ej. Laragon, XAMPP, Valet).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Pasos
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/tuusuario/outsourcing-app.git
+   cd outsourcing-app
+   ```
 
-## Learning Laravel
+2. Configurar el backend:
+   ```bash
+   cd backend
+   cp .env.example .env
+   composer install
+   php artisan key:generate
+   php artisan migrate
+   php artisan db:seed # Opcional para datos iniciales
+   php artisan serve
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Configurar el frontend:
+   ```bash
+   cd frontend
+   cp .env.example .env
+   npm install # O yarn install si usas Yarn
+   npm run dev
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Uso
+1. Accede al sistema:
+   - Backend: `http://localhost:8000`
+   - Frontend: `http://localhost:3000`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Inicia sesión con las credenciales iniciales configuradas en los seeds (si se ejecutaron).
 
-## Laravel Sponsors
+## Funcionalidades principales
+### Usuarios
+- Crear y gestionar usuarios con roles y permisos específicos.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Clientes
+- Registrar y organizar clientes asociados a empresas y proyectos.
 
-### Premium Partners
+### Empresas
+- Llevar un control detallado de empresas contratantes y asociadas.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Proyectos
+- Supervisar el avance de proyectos y su relación con clientes y empresas.
 
-## Contributing
+### Informes y Seguimiento
+- Generar informes detallados y realizar el seguimiento de las actividades.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Contribución
+Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
+1. Haz un fork del repositorio.
+2. Crea una nueva rama para tu funcionalidad (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza un commit de tus cambios (`git commit -am 'Añadí una nueva funcionalidad'`).
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Crea un pull request.
 
-## Code of Conduct
+## Licencia
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Este software es propiedad exclusiva de [Nombre de tu Empresa]. Todos los derechos están reservados.
 
-## Security Vulnerabilities
+El acceso, uso, distribución o modificación de este software sin la autorización previa y por escrito de [Nombre de tu Empresa] está estrictamente prohibido. 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Para más información sobre los términos de uso o para adquirir una licencia, comuníquese con nosotros a través de [correo electrónico o sitio web oficial de la empresa].
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
