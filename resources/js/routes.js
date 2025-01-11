@@ -1,13 +1,10 @@
 const routes = {
     dashboard: '/dashboard',
     usersIndex: '/users',
-    usersCreate: '/users/create',
-    companiesIndex: '/companies',
-    companiesCreate: '/companies/create',
-    projectsIndex: '/projects',
-    projectsCreate: '/projects/create',
     clientsIndex: '/clients',
-    clientsCreate: '/clients/create',
+    companiesIndex: '/companies',
+    projectsIndex: '/projects',
+    servicesIndex: '/services',
 };
 
 export default routes;

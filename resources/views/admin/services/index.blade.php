@@ -1,36 +1,36 @@
 @extends('layouts.app')
 
-@section('title', 'Usuarios')
+@section('title', 'Servicios')
 
 @section('content')
+    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Encabezado de la página -->
+        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Usuarios</h1>
+                        <h1>Servicios</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Inicio</a></li>
-                            <li class="breadcrumb-item active">Usuarios</li>
+                            <li class="breadcrumb-item active">Servicios</li>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12 text-right">
-                        <a href="{{ route('users.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        <a href="{{ route('services.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Servicio
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contenido principal -->
+        <!-- Main content -->
         <section class="content">
-            <!-- Mensaje de éxito -->
             @if (session('success'))
                 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
                 <script>
@@ -47,40 +47,37 @@
                 </script>
             @endif
 
-            <!-- Tabla de usuarios -->
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="card-title">Listado de Usuarios</h3>
+                    <h3 class="card-title">Listado de Servicios</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="usersTable" class="table table-striped table-hover">
+                        <table id="servicesTable" class="table table-striped table-hover">
                             <thead class="bg-secondary text-white">
                                 <tr>
-                                    <th>Número de Documento</th>
+                                    <th style="display: none;">ID</th> <!-- Ocultamos esta columna -->
                                     <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Teléfono</th>
+                                    <th>Descripción</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($users as $user)
+                                @forelse($services as $service)
                                     <tr>
-                                        <td>{{ $user->document_number ?? 'N/A' }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone ?? 'N/A' }}</td>
+                                        <td style="display: none;">{{ $service->id }}</td> <!-- Ocultamos esta columna -->
+                                        <td>{{ $service->name }}</td>
+                                        <td>{{ $service->description ?? 'Sin descripción disponible' }}</td>
                                         <td>
-                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                            <a href="{{ route('services.edit', $service->id) }}" class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i> Editar
                                             </a>
-                                            <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $user->id }}"
-                                                data-name="{{ $user->name }}">
+                                            <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $service->id }}"
+                                                data-name="{{ $service->name }}">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
-                                            <form id="delete-form-{{ $user->id }}"
-                                                action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            <form id="delete-form-{{ $service->id }}"
+                                                action="{{ route('services.destroy', $service->id) }}" method="POST"
                                                 style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
@@ -89,7 +86,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted">No hay usuarios registrados.</td>
+                                        <td colspan="4" class="text-center text-muted">No hay servicios registrados.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -104,12 +101,16 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
+            $('#servicesTable').DataTable({
                 responsive: true,
                 autoWidth: false,
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json' // Traducción al español
                 },
+                columnDefs: [
+                    { targets: 0, visible: false, searchable: false } // Ocultamos la columna ID (índice 0)
+                ],
+                order: [[0, 'desc']], // Ordenamos por la columna ID (índice 0) de forma descendente
                 buttons: [
                     {
                         extend: 'excelHtml5',
@@ -144,7 +145,7 @@
                 const name = $(this).data('name');
                 Swal.fire({
                     title: '¿Estás seguro?',
-                    text: `El usuario "${name}" será eliminado permanentemente.`,
+                    text: `El servicio "${name}" será eliminado permanentemente.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',

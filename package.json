@@ -23,6 +23,7 @@
     "dependencies": {
         "@babel/preset-env": "^7.26.0",
         "@babel/preset-react": "^7.26.3",
-        "bootstrap-icons": "^1.11.3"
+        "bootstrap-icons": "^1.11.3",
+        "react-router-dom": "^7.1.1"
     }
 }
