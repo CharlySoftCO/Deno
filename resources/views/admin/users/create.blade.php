@@ -106,6 +106,7 @@
 
                         <!-- Campos opcionales -->
                         <div id="additionalInfoFields" class="row" style="display: none;">
+                            <!-- Primera columna -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="document_type">Tipo de Documento</label>
@@ -134,15 +135,46 @@
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
 
-                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Teléfono</label>
+                                    <input type="text" name="phone" id="phone"
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="Ingrese el número de teléfono" value="{{ old('phone') }}">
+                                    @error('phone')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Dirección</label>
+                                    <input type="text" name="address" id="address"
+                                        class="form-control @error('address') is-invalid @enderror"
+                                        placeholder="Ingrese la dirección" value="{{ old('address') }}">
+                                    @error('address')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
                                 <div class="form-group">
                                     <label for="hiring_company">Empresa Contratante</label>
                                     <input type="text" name="hiring_company" id="hiring_company"
                                         class="form-control @error('hiring_company') is-invalid @enderror"
                                         placeholder="Ingrese la empresa contratante" value="{{ old('hiring_company') }}">
                                     @error('hiring_company')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Segunda columna -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="position">Cargo</label>
+                                    <input type="text" name="position" id="position"
+                                        class="form-control @error('position') is-invalid @enderror"
+                                        placeholder="Ingrese el cargo" value="{{ old('position') }}">
+                                    @error('position')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -153,6 +185,51 @@
                                         class="form-control @error('project_name') is-invalid @enderror"
                                         placeholder="Ingrese el proyecto asociado" value="{{ old('project_name') }}">
                                     @error('project_name')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contract_type">Tipo de Contrato</label>
+                                    <select name="contract_type" id="contract_type"
+                                        class="form-control @error('contract_type') is-invalid @enderror">
+                                        <option value="">Seleccione el tipo</option>
+                                        <option value="indefinido"
+                                            {{ old('contract_type') == 'indefinido' ? 'selected' : '' }}>Indefinido
+                                        </option>
+                                        <option value="fijo" {{ old('contract_type') == 'fijo' ? 'selected' : '' }}>Fijo
+                                        </option>
+                                        <option value="servicios"
+                                            {{ old('contract_type') == 'servicios' ? 'selected' : '' }}>Servicios</option>
+                                    </select>
+                                    @error('contract_type')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="salary">Salario</label>
+                                    <input type="number" name="salary" id="salary" step="0.01"
+                                        class="form-control @error('salary') is-invalid @enderror"
+                                        placeholder="Ingrese el salario" value="{{ old('salary') }}">
+                                    @error('salary')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gender">Género</label>
+                                    <select name="gender" id="gender"
+                                        class="form-control @error('gender') is-invalid @enderror">
+                                        <option value="">Seleccione el género</option>
+                                        <option value="masculino" {{ old('gender') == 'masculino' ? 'selected' : '' }}>
+                                            Masculino</option>
+                                        <option value="femenino" {{ old('gender') == 'femenino' ? 'selected' : '' }}>
+                                            Femenino</option>
+                                        <option value="otro" {{ old('gender') == 'otro' ? 'selected' : '' }}>Otro
+                                        </option>
+                                    </select>
+                                    @error('gender')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>

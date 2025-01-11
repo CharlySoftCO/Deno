@@ -17,45 +17,6 @@ Este software es un sistema integral de gestión de outsourcing diseñado para o
 - **Base de Datos**: MySQL
 - **Estilos**: Bootstrap 5.3
 
-## Instalación
-### Requisitos previos
-1. Tener instalado [Node.js](https://nodejs.org/) y [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/).
-2. Tener instalado [Composer](https://getcomposer.org/).
-3. Tener un servidor local configurado (ej. Laragon, XAMPP, Valet).
-
-### Pasos
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/outsourcing-app.git
-   cd outsourcing-app
-   ```
-
-2. Configurar el backend:
-   ```bash
-   cd backend
-   cp .env.example .env
-   composer install
-   php artisan key:generate
-   php artisan migrate
-   php artisan db:seed # Opcional para datos iniciales
-   php artisan serve
-   ```
-
-3. Configurar el frontend:
-   ```bash
-   cd frontend
-   cp .env.example .env
-   npm install # O yarn install si usas Yarn
-   npm run dev
-   ```
-
-## Uso
-1. Accede al sistema:
-   - Backend: `http://localhost:8000`
-   - Frontend: `http://localhost:3000`
-
-2. Inicia sesión con las credenciales iniciales configuradas en los seeds (si se ejecutaron).
-
 ## Funcionalidades principales
 ### Usuarios
 - Crear y gestionar usuarios con roles y permisos específicos.
@@ -71,14 +32,6 @@ Este software es un sistema integral de gestión de outsourcing diseñado para o
 
 ### Informes y Seguimiento
 - Generar informes detallados y realizar el seguimiento de las actividades.
-
-## Contribución
-Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
-1. Haz un fork del repositorio.
-2. Crea una nueva rama para tu funcionalidad (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza un commit de tus cambios (`git commit -am 'Añadí una nueva funcionalidad'`).
-4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
-5. Crea un pull request.
 
 ## Licencia
 

@@ -3,9 +3,7 @@
 @section('title', 'Usuarios')
 
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -19,21 +17,22 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
 
-        <!-- Main content -->
         <section class="content">
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Lista de Usuarios</h3>
                     <div class="card-tools">
-                        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Nuevo Usuario</a>
+                        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped table-bordered">
+                    <table id="usersTable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Número de Documento</th>
@@ -52,13 +51,15 @@
                                     <td>{{ $user->phone ?? 'N/A' }}</td>
                                     <td>
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i> Editar
                                         </a>
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
-                                                <i class="fas fa-trash"></i>
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                                <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </form>
                                     </td>
@@ -74,4 +75,22 @@
             </div>
         </section>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json' // Traducción al español
+                },
+                buttons: [
+                    'excel', 'pdf', 'print', 'colvis'
+                ],
+                dom: 'Bfrtip'
+            });
+        });
+    </script>
 @endsection
