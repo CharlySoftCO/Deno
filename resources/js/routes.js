@@ -4,6 +4,8 @@ const routes = {
     usersCreate: '/users/create',
     companiesIndex: '/companies',
     companiesCreate: '/companies/create',
+    projectsIndex: '/projects',
+    projectsCreate: '/projects/create',
     clientsIndex: '/clients',
     clientsCreate: '/clients/create',
 };

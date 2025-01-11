@@ -17,7 +17,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.jsx'])
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->

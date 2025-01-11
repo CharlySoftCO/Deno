@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="content-wrapper">
+        <!-- Encabezado de la página -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -17,10 +18,19 @@
                         </ol>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12 text-right">
+                        <a href="{{ route('companies.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nueva Empresa
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- Contenido principal -->
         <section class="content">
+            <!-- Mensaje de éxito -->
             @if (session('success'))
                 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
                 <script>
@@ -30,41 +40,24 @@
                         text: '{{ session('success') }}',
                         showConfirmButton: false,
                         timer: 1500,
-                        timerProgressBar: true, // Activa la barra de progreso
+                        timerProgressBar: true,
                         toast: true,
-                        position: 'top-end',
-                        didOpen: (toast) => {
-                            const timerInterval = setInterval(() => {
-                                const content = Swal.getContent();
-                                if (content) {
-                                    const b = content.querySelector('b');
-                                    if (b) {
-                                        b.textContent = Swal.getTimerLeft();
-                                    }
-                                }
-                            }, 100);
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval);
-                        }
+                        position: 'top-end'
                     });
                 </script>
             @endif
 
+            <!-- Tabla de empresas -->
             <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="card-title">Listado de Empresas</h3>
-                        <a href="{{ route('companies.create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Nueva Empresa
-                        </a>
-                    </div>
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title">Listado de Empresas</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="companiesTable" class="table table-striped table-hover">
-                            <thead>
+                            <thead class="bg-secondary text-white">
                                 <tr>
+                                    <th style="display: none;">ID</th> <!-- Ocultar esta columna -->
                                     <th>NIT</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
@@ -74,6 +67,7 @@
                             <tbody>
                                 @forelse ($companies as $company)
                                     <tr>
+                                        <td style="display: none;">{{ $company->id }}</td> <!-- Ocultar esta columna -->
                                         <td>{{ $company->nit }}</td>
                                         <td>{{ $company->name }}</td>
                                         <td>{{ $company->description }}</td>
@@ -96,7 +90,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center">No hay empresas registradas.</td>
+                                        <td colspan="4" class="text-center text-muted">No hay empresas registradas.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -109,7 +103,6 @@
 @endsection
 
 @section('js')
-    <!-- Inicialización de DataTables -->
     <script>
         $(document).ready(function() {
             $('#companiesTable').DataTable({
@@ -118,7 +111,12 @@
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json' // Traducción al español
                 },
-                buttons: [{
+                columnDefs: [
+                    { targets: 0, visible: false, searchable: false } // Oculta la columna ID (índice 0)
+                ],
+                order: [[0, 'desc']], // Ordenar por la columna ID de forma descendente
+                buttons: [
+                    {
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i> Exportar a Excel',
                         className: 'btn btn-success btn-sm'
@@ -144,9 +142,9 @@
                     '<"row mt-2"<"col-md-6"i><"col-md-6 d-flex justify-content-end"p>>'
             });
 
-            // SweetAlert2 para confirmación de eliminación
+            // Confirmación de eliminación con SweetAlert2
             $(document).on('click', '.delete-btn', function(e) {
-                e.preventDefault(); // Previene el comportamiento predeterminado en móviles
+                e.preventDefault();
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 Swal.fire({

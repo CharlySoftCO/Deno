@@ -4,7 +4,8 @@ import routes from '../routes';
 const Sidebar = () => {
     const [openMenus, setOpenMenus] = useState({});
 
-    const toggleMenu = (menu) => {
+    const toggleMenu = (menu, event) => {
+        if (event) event.preventDefault(); // Prevenir el comportamiento predeterminado
         setOpenMenus((prev) => ({
             ...prev,
             [menu]: !prev[menu],
@@ -19,7 +20,7 @@ const Sidebar = () => {
 
                     {/* Tablero */}
                     <li className="nav-item">
-                        <a href={routes.dashboard} className="nav-link">
+                        <a href={routes.dashboard} className="nav-link active">
                             <i className="nav-icon fas fa-tachometer-alt"></i>
                             <p>Tablero</p>
                         </a>
@@ -45,7 +46,7 @@ const Sidebar = () => {
 
                     {/* Usuarios */}
                     <li className={`nav-item ${openMenus['users'] ? 'menu-open' : ''}`}>
-                        <a href="#" className="nav-link" onClick={() => toggleMenu('users')}>
+                        <a href="#" className="nav-link" onClick={(e) => toggleMenu('users', e)}>
                             <i className="nav-icon fas fa-users"></i>
                             <p>
                                 Usuarios
@@ -70,7 +71,7 @@ const Sidebar = () => {
 
                     {/* Empresas */}
                     <li className={`nav-item ${openMenus['companies'] ? 'menu-open' : ''}`}>
-                        <a href="#" className="nav-link" onClick={() => toggleMenu('companies')}>
+                        <a href="#" className="nav-link" onClick={(e) => toggleMenu('companies', e)}>
                             <i className="nav-icon fas fa-building"></i>
                             <p>
                                 Empresas
@@ -95,7 +96,7 @@ const Sidebar = () => {
 
                     {/* Proyectos */}
                     <li className={`nav-item ${openMenus['projects'] ? 'menu-open' : ''}`}>
-                        <a href="#" className="nav-link" onClick={() => toggleMenu('projects')}>
+                        <a href="#" className="nav-link" onClick={(e) => toggleMenu('projects', e)}>
                             <i className="nav-icon fas fa-project-diagram"></i>
                             <p>
                                 Proyectos
@@ -120,7 +121,7 @@ const Sidebar = () => {
 
                     {/* Clientes */}
                     <li className={`nav-item ${openMenus['clients'] ? 'menu-open' : ''}`}>
-                        <a href="#" className="nav-link" onClick={() => toggleMenu('clients')}>
+                        <a href="#" className="nav-link" onClick={(e) => toggleMenu('clients', e)}>
                             <i className="nav-icon fas fa-user-tie"></i>
                             <p>
                                 Clientes

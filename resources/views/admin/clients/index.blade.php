@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Usuarios')
+@section('title', 'Clientes')
 
 @section('content')
     <div class="content-wrapper">
@@ -9,19 +9,19 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Usuarios</h1>
+                        <h1>Clientes</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Inicio</a></li>
-                            <li class="breadcrumb-item active">Usuarios</li>
+                            <li class="breadcrumb-item active">Clientes</li>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12 text-right">
-                        <a href="{{ route('users.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        <a href="{{ route('clients.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Cliente
                         </a>
                     </div>
                 </div>
@@ -30,7 +30,6 @@
 
         <!-- Contenido principal -->
         <section class="content">
-            <!-- Mensaje de éxito -->
             @if (session('success'))
                 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
                 <script>
@@ -47,40 +46,44 @@
                 </script>
             @endif
 
-            <!-- Tabla de usuarios -->
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="card-title">Lista de Usuarios</h3>
+                    <h3 class="card-title">Listado de Clientes</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="usersTable" class="table table-striped table-hover">
+                        <table id="clientsTable" class="table table-striped table-hover">
                             <thead class="bg-secondary text-white">
                                 <tr>
+                                    <th style="display: none;">ID</th> <!-- Ocultamos esta columna -->
+                                    <th>Tipo de Documento</th>
                                     <th>Número de Documento</th>
                                     <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Teléfono</th>
+                                    <th>Correo Electrónico</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($users as $user)
+                                @forelse($clients as $client)
                                     <tr>
-                                        <td>{{ $user->document_number ?? 'N/A' }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone ?? 'N/A' }}</td>
+                                        <td style="display: none;">{{ $client->id }}</td>
+                                        <td>{{ $client->document_type }}</td>
+                                        <td>{{ $client->document_number }}</td>
+                                        <td>{{ $client->name }}</td>
+                                        <td>{{ $client->email ?? 'N/A' }}</td>
                                         <td>
-                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                            <button class="btn btn-info btn-sm view-btn" data-client="{{ json_encode($client) }}">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </button>
+                                            <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i> Editar
                                             </a>
-                                            <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $user->id }}"
-                                                data-name="{{ $user->name }}">
+                                            <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $client->id }}"
+                                                data-name="{{ $client->name }}">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
-                                            <form id="delete-form-{{ $user->id }}"
-                                                action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            <form id="delete-form-{{ $client->id }}"
+                                                action="{{ route('clients.destroy', $client->id) }}" method="POST"
                                                 style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
@@ -89,7 +92,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted">No hay usuarios registrados.</td>
+                                        <td colspan="7" class="text-center text-muted">No hay clientes registrados.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -99,17 +102,24 @@
             </div>
         </section>
     </div>
+
+    <!-- Modal moderna para ver cliente -->
+    @include('admin.clients.show')
 @endsection
 
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
+            $('#clientsTable').DataTable({
                 responsive: true,
                 autoWidth: false,
                 language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json' // Traducción al español
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
                 },
+                columnDefs: [
+                    { targets: 0, visible: false, searchable: false } // Oculta la columna ID
+                ],
+                order: [[0, 'desc']], // Ordena por ID descendente
                 buttons: [
                     {
                         extend: 'excelHtml5',
@@ -144,7 +154,7 @@
                 const name = $(this).data('name');
                 Swal.fire({
                     title: '¿Estás seguro?',
-                    text: `El usuario "${name}" será eliminado permanentemente.`,
+                    text: `El cliente "${name}" será eliminado permanentemente.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -156,6 +166,23 @@
                         document.getElementById(`delete-form-${id}`).submit();
                     }
                 });
+            });
+
+            // Mostrar datos en la modal
+            $(document).on('click', '.view-btn', function() {
+                const client = $(this).data('client');
+                $('#client-document-type').text(client.document_type || 'N/A');
+                $('#client-document-number').text(client.document_number || 'N/A');
+                $('#client-name').text(client.name || 'N/A');
+                $('#client-email').text(client.email || 'N/A');
+                $('#client-phone').text(client.phone || 'N/A');
+                $('#client-mobile').text(client.mobile || 'N/A');
+                $('#client-address').text(client.address || 'N/A');
+                $('#client-city').text(client.city || 'N/A');
+                $('#client-department').text(client.department || 'N/A');
+                $('#client-company').text(client.company_name || 'N/A');
+
+                $('#clientModal').modal('show');
             });
         });
     </script>
