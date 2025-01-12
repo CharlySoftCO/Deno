@@ -16,17 +16,17 @@ class CompanySeeder extends Seeder
     {
         $companies = [
             [
-                'nit' => '900123456-1',
+                'nit' => '9001234561',
                 'name' => 'Empresa Alpha',
                 'description' => 'Empresa líder en soluciones tecnológicas.',
             ],
             [
-                'nit' => '800987654-2',
+                'nit' => '8009876542',
                 'name' => 'Beta Consulting',
                 'description' => 'Consultoría estratégica para empresas.',
             ],
             [
-                'nit' => '700567890-3',
+                'nit' => '7005678903',
                 'name' => 'Gamma Services',
                 'description' => 'Servicios integrales de outsourcing.',
             ],

@@ -32,6 +32,12 @@ class Client extends Model
         'company_name',
     ];
 
+    // Relación con proyectos
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
     /**
      * The attributes that should be cast.
      *

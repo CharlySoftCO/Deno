@@ -35,11 +35,11 @@ class ServiceController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
         ]);
-    
+
         try {
             // Crear un nuevo servicio
             Service::create($validatedData);
-    
+
             // Redirigir al listado de servicios con un mensaje de éxito
             return redirect()->route('services.index')
                 ->with('success', '¡Servicio creado exitosamente!');
@@ -49,7 +49,7 @@ class ServiceController extends Controller
                 ->withErrors(['error' => 'Ocurrió un error al guardar el servicio.'])
                 ->withInput();
         }
-    }    
+    }
 
     /**
      * Display the specified resource.
@@ -64,7 +64,11 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Buscar el servicio por ID
+        $service = Service::findOrFail($id);
+
+        // Retornar la vista de edición con los datos del servicio
+        return view('admin.services.edit', compact('service'));
     }
 
     /**
@@ -72,7 +76,23 @@ class ServiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validar los datos enviados por el formulario
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+        ]);
+
+        // Buscar el servicio por ID
+        $service = Service::findOrFail($id);
+
+        // Actualizar los datos del servicio
+        $service->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+        ]);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('services.index')->with('success', 'Servicio actualizado correctamente.');
     }
 
     /**
@@ -80,6 +100,13 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        // Buscar el servicio por ID
+        $service = Service::findOrFail($id);
+    
+        // Eliminar el servicio
+        $service->delete();
+    
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('services.index')->with('success', 'Servicio eliminado correctamente.');
+    }    
 }

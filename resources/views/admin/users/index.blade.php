@@ -57,21 +57,24 @@
                         <table id="usersTable" class="table table-striped table-hover">
                             <thead class="bg-secondary text-white">
                                 <tr>
+                                    <th>Tipo de Documento</th>
                                     <th>Número de Documento</th>
                                     <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Teléfono</th>
+                                    <th>Correo Electrónico</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($users as $user)
                                     <tr>
-                                        <td>{{ $user->document_number ?? 'N/A' }}</td>
+                                        <td>{{ $user->document_type }}</td>
+                                        <td>{{ $user->document_number }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone ?? 'N/A' }}</td>
                                         <td>
+                                            <button class="btn btn-info btn-sm view-btn" data-user="{{ $user }}">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </button>
                                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i> Editar
                                             </a>
@@ -99,42 +102,28 @@
             </div>
         </section>
     </div>
+
+    <!-- Modal para Ver Detalles -->
+    @include('admin.users.show')
 @endsection
 
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
-                responsive: true,
-                autoWidth: false,
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json' // Traducción al español
-                },
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i> Exportar a Excel',
-                        className: 'btn btn-success btn-sm'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i> Exportar a PDF',
-                        className: 'btn btn-danger btn-sm'
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i class="fas fa-print"></i> Imprimir',
-                        className: 'btn btn-secondary btn-sm'
-                    },
-                    {
-                        extend: 'colvis',
-                        text: '<i class="fas fa-columns"></i> Columnas',
-                        className: 'btn btn-info btn-sm'
-                    }
-                ],
-                dom: '<"row mb-3"<"col-md-6 d-flex align-items-center"B><"col-md-6 text-end"f>>' +
-                    '<"row"<"col-12 table-responsive"tr>>' +
-                    '<"row mt-2"<"col-md-6"i><"col-md-6 d-flex justify-content-end"p>>'
+            // Manejar la apertura de la modal con los datos del usuario
+            $(document).on('click', '.view-btn', function() {
+                const user = $(this).data('user');
+
+                $('#user-document-type').text(user.document_type || 'N/A');
+                $('#user-document-number').text(user.document_number || 'N/A');
+                $('#user-name').text(user.name || 'N/A');
+                $('#user-email').text(user.email || 'N/A');
+                $('#user-phone').text(user.phone || 'N/A');
+                $('#user-is-active').text(user.is_active ? 'Activo' : 'Inactivo');
+                $('#user-photo').attr('src', user.profile_photo ? `/storage/${user.profile_photo}` :
+                    '/default-avatar.png');
+
+                $('#userModal').modal('show');
             });
 
             // Confirmación de eliminación con SweetAlert2

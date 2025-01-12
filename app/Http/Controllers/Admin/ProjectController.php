@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Project;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -13,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderBy('id', 'desc')->get();
+        $projects = Project::with(['client', 'services'])->orderBy('id', 'desc')->get();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -22,7 +24,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $clients = Client::all(); // Lista de clientes
+        $services = Service::all(); // Lista de servicios
+        return view('admin.projects.create', compact('clients', 'services'));
     }
 
     /**
@@ -30,28 +34,24 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos enviados desde el formulario
         $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'client_id' => 'required|exists:clients,id',
+            'services' => 'required|array', // Campo requerido
+            'services.*' => 'exists:services,id', // Validar que cada servicio exista
         ]);
 
-        // Crear un nuevo proyecto con los datos validados
-        Project::create([
-            'nombre' => $validatedData['nombre'],
-            'descripcion' => $validatedData['descripcion'] ?? null, // Si no hay descripción, asignar null
+        $project = Project::create([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'] ?? null,
+            'client_id' => $validatedData['client_id'],
         ]);
 
-        // Redirigir al índice con un mensaje de éxito
+        // Asociar los servicios seleccionados
+        $project->services()->sync($validatedData['services']);
+
         return redirect()->route('projects.index')->with('success', '¡El proyecto se ha creado correctamente!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -60,10 +60,14 @@ class ProjectController extends Controller
     public function edit(string $id)
     {
         // Buscar el proyecto por ID
-        $project = Project::findOrFail($id);
+        $project = Project::with('services')->findOrFail($id);
 
-        // Retornar la vista de edición con los datos del proyecto
-        return view('admin.projects.edit', compact('project'));
+        // Obtener todos los clientes y servicios
+        $clients = Client::all();
+        $services = Service::all();
+
+        // Retornar la vista de edición con los datos necesarios
+        return view('admin.projects.edit', compact('project', 'clients', 'services'));
     }
 
     /**
@@ -73,8 +77,11 @@ class ProjectController extends Controller
     {
         // Validar los datos enviados desde el formulario
         $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'client_id' => 'required|exists:clients,id',
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',
         ]);
 
         // Buscar el proyecto por ID
@@ -82,9 +89,13 @@ class ProjectController extends Controller
 
         // Actualizar los datos del proyecto
         $project->update([
-            'nombre' => $validatedData['nombre'],
-            'descripcion' => $validatedData['descripcion'] ?? null,
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'] ?? null,
+            'client_id' => $validatedData['client_id'],
         ]);
+
+        // Sincronizar los servicios seleccionados
+        $project->services()->sync($validatedData['services']);
 
         // Redirigir al índice con un mensaje de éxito
         return redirect()->route('projects.index')->with('success', '¡El proyecto se ha actualizado correctamente!');

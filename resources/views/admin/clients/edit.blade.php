@@ -47,7 +47,7 @@
                                                     <option value="CE" {{ $client->document_type == 'CE' ? 'selected' : '' }}>Cédula de Extranjería (CE)</option>
                                                 </select>
                                                 @error('document_type')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -57,7 +57,7 @@
                                                     placeholder="Ingrese el número de documento"
                                                     value="{{ old('document_number', $client->document_number) }}">
                                                 @error('document_number')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -67,7 +67,7 @@
                                                     placeholder="Ingrese el nombre completo o razón social"
                                                     value="{{ old('name', $client->name) }}">
                                                 @error('name')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -77,7 +77,7 @@
                                                     placeholder="Ingrese el correo electrónico"
                                                     value="{{ old('email', $client->email) }}">
                                                 @error('email')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -87,7 +87,7 @@
                                                     placeholder="Ingrese el teléfono fijo"
                                                     value="{{ old('phone', $client->phone) }}">
                                                 @error('phone')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -100,7 +100,7 @@
                                                     placeholder="Ingrese el teléfono móvil"
                                                     value="{{ old('mobile', $client->mobile) }}">
                                                 @error('mobile')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -110,7 +110,7 @@
                                                     placeholder="Ingrese la dirección"
                                                     value="{{ old('address', $client->address) }}">
                                                 @error('address')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -120,7 +120,7 @@
                                                     placeholder="Ingrese la ciudad"
                                                     value="{{ old('city', $client->city) }}">
                                                 @error('city')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -130,7 +130,7 @@
                                                     placeholder="Ingrese el departamento"
                                                     value="{{ old('department', $client->department) }}">
                                                 @error('department')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -140,7 +140,7 @@
                                                     placeholder="Ingrese el nombre de la empresa (si aplica)"
                                                     value="{{ old('company_name', $client->company_name) }}">
                                                 @error('company_name')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>

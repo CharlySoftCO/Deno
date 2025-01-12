@@ -3,9 +3,7 @@
 @section('title', 'Proyectos')
 
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -29,7 +27,6 @@
             </div>
         </section>
 
-        <!-- Main content -->
         <section class="content">
             @if (session('success'))
                 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -53,11 +50,27 @@
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header bg-primary text-white">
-                                    <h5 class="card-title mb-0">{{ $project->nombre }}</h5>
+                                    <h5 class="card-title mb-0">{{ $project->name }}</h5>
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text">
-                                        {{ $project->descripcion ?? 'Sin descripción disponible.' }}
+                                        {{ $project->description ?? 'Sin descripción disponible.' }}
+                                    </p>
+                                    <p class="card-text">
+                                        <strong>Cliente:</strong>
+                                        {{ $project->client->name ?? 'No asociado a ningún cliente.' }}
+                                    </p>
+                                    <p class="card-text">
+                                        <strong>Servicios contratados:</strong>
+                                        @if ($project->services->isNotEmpty())
+                                            <ul class="list-unstyled mb-0">
+                                                @foreach ($project->services as $service)
+                                                    <li>- {{ $service->name }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <em>No hay servicios asociados a este proyecto.</em>
+                                        @endif
                                     </p>
                                 </div>
                                 <div class="card-footer d-flex">
@@ -96,7 +109,6 @@
 @section('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // SweetAlert2 para confirmación de eliminación
             document.querySelectorAll('.delete-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const projectId = this.getAttribute('data-id');

@@ -40,30 +40,66 @@
                                         <!-- Primera columna -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="nombre">Nombre del Proyecto</label>
-                                                <input type="text" name="nombre" id="nombre"
-                                                    class="form-control @error('nombre') is-invalid @enderror"
-                                                    value="{{ old('nombre', $project->nombre) }}"
+                                                <label for="name">Nombre del Proyecto</label>
+                                                <input type="text" name="name" id="name"
+                                                    class="form-control @error('name') is-invalid @enderror"
+                                                    value="{{ old('name', $project->name) }}"
                                                     placeholder="Ingrese el nombre del proyecto">
-                                                @error('nombre')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @error('name')
+                                                    <span class="text-danger small">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Cliente -->
+                                            <div class="form-group">
+                                                <label for="client_id">Cliente</label>
+                                                <select name="client_id" id="client_id"
+                                                    class="form-control @error('client_id') is-invalid @enderror">
+                                                    <option value="">Seleccione un cliente</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}"
+                                                            {{ old('client_id', $project->client_id) == $client->id ? 'selected' : '' }}>
+                                                            {{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('client_id')
+                                                    <span class="text-danger small">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Servicios -->
+                                            <div class="form-group">
+                                                <label for="services">Servicios</label>
+                                                <select name="services[]" id="services"
+                                                    class="form-control select2 @error('services') is-invalid @enderror"
+                                                    multiple>
+                                                    @foreach ($services as $service)
+                                                        <option value="{{ $service->id }}"
+                                                            {{ $project->services->contains($service->id) ? 'selected' : '' }}>
+                                                            {{ $service->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('services')
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <!-- Segunda columna -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="descripcion">Descripción</label>
-                                                <textarea name="descripcion" id="descripcion"
-                                                    class="form-control @error('descripcion') is-invalid @enderror"
-                                                    placeholder="Ingrese una descripción breve del proyecto"
-                                                    rows="4">{{ old('descripcion', $project->descripcion) }}</textarea>
-                                                @error('descripcion')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                <label for="description">Descripción</label>
+                                                <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
+                                                    placeholder="Ingrese una descripción breve del proyecto" rows="4">{{ old('description', $project->description) }}</textarea>
+                                                @error('description')
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="d-flex justify-content-between">
                                         <a href="{{ route('projects.index') }}" class="btn btn-secondary">
                                             <i class="fas fa-arrow-left"></i> Cancelar
@@ -80,4 +116,15 @@
             </div>
         </section>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#services').select2({
+                placeholder: "Seleccione uno o más servicios",
+                allowClear: true,
+            });
+        });
+    </script>
 @endsection

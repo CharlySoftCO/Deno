@@ -28,4 +28,9 @@ class Service extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_service');
+    }
 }

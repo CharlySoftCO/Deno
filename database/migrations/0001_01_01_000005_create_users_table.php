@@ -13,28 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained()->onDelete('cascade'); // Relación con compañías
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('document_type')->nullable(); // CC, TI, NIT
-            $table->string('document_number')->unique()->nullable();
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('position')->nullable(); // Cargo
-            $table->string('department')->nullable(); // Departamento
-            $table->decimal('salary', 15, 2)->nullable();
-            $table->string('hiring_company')->nullable(); // Empresa contratante
-            $table->enum('contract_type', ['indefinido', 'fijo', 'servicios'])->nullable();
-            $table->string('project_name')->nullable(); // Proyecto asociado
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->date('birth_date')->nullable();
-            $table->enum('gender', ['masculino', 'femenino', 'otro'])->nullable();
-            $table->string('marital_status')->nullable();
+            $table->string('document_type');
+            $table->string('document_number')->unique();
+            $table->string('phone');
             $table->string('profile_photo')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

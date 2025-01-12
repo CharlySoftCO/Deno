@@ -3,9 +3,7 @@
 @section('title', 'Nuevo Proyecto')
 
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -23,7 +21,6 @@
             </div>
         </section>
 
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row justify-content-center">
@@ -39,26 +36,60 @@
                                         <!-- Primera columna -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="nombre">Nombre del Proyecto</label>
-                                                <input type="text" name="nombre" id="nombre"
-                                                    class="form-control @error('nombre') is-invalid @enderror"
+                                                <label for="name">Nombre del Proyecto</label>
+                                                <input type="text" name="name" id="name"
+                                                    class="form-control @error('name') is-invalid @enderror"
                                                     placeholder="Ingrese el nombre del proyecto"
-                                                    value="{{ old('nombre') }}">
-                                                @error('nombre')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    value="{{ old('name') }}">
+                                                @error('name')
+                                                    <span class="text-danger small">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Campo Cliente (no es select2) -->
+                                            <div class="form-group">
+                                                <label for="client_id">Cliente</label>
+                                                <select name="client_id" id="client_id"
+                                                    class="form-control @error('client_id') is-invalid @enderror">
+                                                    <option value="">Seleccione un cliente</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}"
+                                                            {{ old('client_id') == $client->id ? 'selected' : '' }}>
+                                                            {{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('client_id')
+                                                    <span class="text-danger small">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Campo Servicios (Select2) -->
+                                            <div class="form-group">
+                                                <label for="services">Servicios</label>
+                                                <select name="services[]" id="services" class="form-control select2"
+                                                    multiple>
+                                                    @foreach ($services as $service)
+                                                        <option value="{{ $service->id }}"
+                                                            {{ collect(old('services'))->contains($service->id) ? 'selected' : '' }}>
+                                                            {{ $service->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('services')
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <!-- Segunda columna -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="descripcion">Descripción</label>
-                                                <textarea name="descripcion" id="descripcion"
-                                                    class="form-control @error('descripcion') is-invalid @enderror"
-                                                    placeholder="Ingrese una descripción breve del proyecto"
-                                                    rows="4">{{ old('descripcion') }}</textarea>
-                                                @error('descripcion')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                <label for="description">Descripción</label>
+                                                <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
+                                                    placeholder="Ingrese una descripción breve del proyecto" rows="4">{{ old('description') }}</textarea>
+                                                @error('description')
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -79,4 +110,16 @@
             </div>
         </section>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#services').select2({
+                placeholder: "Seleccione uno o más servicios",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
 @endsection

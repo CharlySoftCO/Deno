@@ -47,7 +47,7 @@
                                                     value="{{ old('nit', $company->nit) }}"
                                                     placeholder="Ingrese el NIT de la empresa">
                                                 @error('nit')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
@@ -57,7 +57,7 @@
                                                     value="{{ old('name', $company->name) }}"
                                                     placeholder="Ingrese el nombre de la empresa">
                                                 @error('name')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                                     class="form-control @error('description') is-invalid @enderror"
                                                     placeholder="Ingrese una descripción breve">{{ old('description', $company->description) }}</textarea>
                                                 @error('description')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>

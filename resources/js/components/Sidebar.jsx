@@ -52,8 +52,8 @@ const Sidebar = () => {
                     {/* Inventario */}
                     <li className="nav-item">
                         <a
-                            href={routes.inventoryIndex}
-                            className={`nav-link ${isActive(routes.inventoryIndex) ? 'active' : ''}`}
+                            href={routes.inventoriesIndex}
+                            className={`nav-link ${isActive(routes.inventoriesIndex) ? 'active' : ''}`}
                         >
                             <i className="nav-icon fas fa-boxes"></i>
                             <p>Inventario</p>
@@ -94,6 +94,18 @@ const Sidebar = () => {
                             <p>Empresas</p>
                         </a>
                     </li>
+
+                    {/* Sucursales */}
+                    <li className="nav-item">
+                        <a
+                            href={routes.branchesIndex}
+                            className={`nav-link ${isActive(routes.branchesIndex) ? 'active' : ''}`}
+                        >
+                            <i className="nav-icon fas fa-store"></i>
+                            <p>Sucursales</p>
+                        </a>
+                    </li>
+
 
                     {/* Proyectos */}
                     <li className="nav-item">

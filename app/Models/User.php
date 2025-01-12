@@ -16,6 +16,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    
     protected $fillable = [
         'name',
         'email',
@@ -23,22 +24,20 @@ class User extends Authenticatable
         'document_type',
         'document_number',
         'phone',
-        'address',
-        'city',
-        'position',
-        'department',
-        'salary',
-        'hiring_company',
-        'contract_type',
-        'project_name',
-        'start_date',
-        'end_date',
-        'birth_date',
-        'gender',
-        'marital_status',
+        'company_id',
         'profile_photo',
         'is_active',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_user');
+    }
 
     /**
      * Los atributos que deben estar ocultos para la serialización.
@@ -60,10 +59,6 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'start_date' => 'date',
-            'end_date' => 'date',
-            'birth_date' => 'date',
-            'salary' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }

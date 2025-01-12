@@ -45,7 +45,7 @@
                                                     placeholder="Ingrese el nombre del servicio"
                                                     value="{{ old('name') }}">
                                                 @error('name')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -59,7 +59,7 @@
                                                     placeholder="Ingrese una descripción breve del servicio"
                                                     rows="4">{{ old('description') }}</textarea>
                                                 @error('description')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                    <span class="text-danger small">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
